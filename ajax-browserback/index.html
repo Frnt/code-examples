@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ajax browseback example</title>
+</head>
+<body>
+<button id="btn">load</button>
+
+<ul id="drawArea"></ul>
+
+<ol>
+<li>「load」ボタンをクリックしてください
+<li>表示されたリンクをクリックした後、ブラウザバックでこのページに戻ってください
+</p>
+
+<!-- ★ -->
+<form style="display:none">
+<textarea id="tmpStorage"></textarea>
+</form>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+
+function drawLink(data) {
+  $.each(data, function(k, v) {
+    $('<a/>').attr('href', v.url).text(v.title).appendTo('#drawArea').wrap('<li/>');
+  });
+}
+
+// ★restore from hidden element
+if ($('#tmpStorage').val() !== '') {
+  drawLink(JSON.parse($('#tmpStorage').val()));
+}
+
+$('#btn').click(function(){
+  $.get("data.json", function(json){
+    // ★store to hidden element
+    $('#tmpStorage').val(json);
+
+    drawLink(JSON.parse(json));
+  });
+});
+</script>
+</body>
+</html>
