@@ -34,7 +34,11 @@ if ($('#tmpStorage').val() !== '') {
 }
 
 $('#btn').click(function(){
-  $.get("data.json", function(json){
+  $.ajax({
+   url: 'data.json',
+   dataType: 'text'
+  })
+  .done(function(json){
     // ★store to hidden element
     $('#tmpStorage').val(json);
 
